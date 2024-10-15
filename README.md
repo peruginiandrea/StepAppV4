@@ -4,4 +4,4 @@ This repository is dedicated for the fourth tutorial of Mobile and Wearable Comp
 
 The tutorial aims at integrating sensors functionality in the StepApp android application.
 
-in this tutorial, we are going to use Accelerometer sensor to count the number of user's steps.
+In this tutorial, we are going to use Accelerometer sensor to count the number of user's steps.
