@@ -77,10 +77,10 @@ public class  StepCounterListener implements SensorEventListener {
                 }
 
                 // TODO 11 (YOUR TURN): Compute the magnitude for the acceleration and put it in accMag
-                accMag = Math.sqrt(x*x+y*y+z*z);
+
 
                 // TODO 12 (YOUR TURN): Store the magnitude for the acceleration in accSeries
-                accSeries.add((int) accMag);
+
 
                 peakDetection();
 
