@@ -33,9 +33,9 @@ public class StepsFragment extends Fragment {
     private int stepsCounter = 0;
     // TODO 1: Create an object from Sensor class
     private Sensor accSensor;
+    private Sensor stepSensor;
     // TODO 2: Create an object from SensorManager class
     private SensorManager sensorManager;
-
     private StepCounterListener sensorListener;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,6 +45,17 @@ public class StepsFragment extends Fragment {
 
         binding = FragmentStepsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //Timestamp
+        long timeInMillis = System.currentTimeMillis();
+        // Convert the timestamp to date
+        SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        jdf.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        final String dateTimestamp = jdf.format(timeInMillis);
+        String currentDay = dateTimestamp.substring(0,10);
+
+        // setting steps from database (just for today)
+        stepsCounter = StepAppOpenHelper.loadSingleRecord(this.getContext(), currentDay);
 
         CircularProgressIndicator progressBar = (CircularProgressIndicator)  root.findViewById(R.id.progressBar);
         progressBar.setMax(100);
@@ -57,6 +68,7 @@ public class StepsFragment extends Fragment {
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         // TODO 4: Assign ACC. sensor
         accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
 
         // Toggle group button
@@ -68,18 +80,19 @@ public class StepsFragment extends Fragment {
                 if (checkedId == R.id.toggleStart_btn) {
 
                     // TODO 6: Check if ACC. sensor exists and register the sensor event listener to it when use press start button
-                    if (accSensor != null)
+                    if (stepSensor != null && accSensor != null)
                     {
                         //TODO 20 (Your Turn): Pass the progress to the constructor of the listener class
 
-                        sensorListener = new StepCounterListener(getContext(), stepsTextView);
+                        sensorListener = new StepCounterListener(getContext(), stepsTextView, progressBar);
 
                         sensorManager.registerListener(sensorListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+                        sensorManager.registerListener(sensorListener, stepSensor, SensorManager.SENSOR_DELAY_NORMAL);
                         Toast.makeText(getContext(), R.string.start_text, Toast.LENGTH_LONG).show();
                     }
                     else
                     {
-                        Toast.makeText(getContext(), R.string.acc_sensor_not_available, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.step_sensor_not_available, Toast.LENGTH_LONG).show();
                     }
 
 

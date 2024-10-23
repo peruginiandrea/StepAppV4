@@ -23,6 +23,7 @@ public class  StepCounterListener implements SensorEventListener {
 
     private long lastSensorUpdate = 0;
     public static int accStepCounter = 0;
+    public static int stepCounter = 0;
     ArrayList<Integer> accSeries = new ArrayList<Integer>();
     private double accMag = 0;
     private int lastAddedIndex = 1;
@@ -31,15 +32,19 @@ public class  StepCounterListener implements SensorEventListener {
     //TODO 13: Declare the TextView in the listener class
     TextView stepCountsView;
     //TODO 16 (Your Turn): Declare the CircularProgressIndicator in the listener class
+    CircularProgressIndicator progressBar;
+
 
     //TODO 14: Pass the TextView to the listener class using the constructor
     //TODO 17 (Your Turn): Add the CircularProgressIndicator as a paramter in the constructor
 
-    public StepCounterListener(Context context, TextView stepCountsView)
+    public StepCounterListener(Context context, TextView stepCountsView,
+                           CircularProgressIndicator progressBar)
     {
         this.stepCountsView = stepCountsView;
         this.context = context;
         //TODO 18 (Your Turn): Assign the CircularProgressIndicator variable
+        this.progressBar = progressBar;
 
     }
 
@@ -73,14 +78,16 @@ public class  StepCounterListener implements SensorEventListener {
                 {
                     lastSensorUpdate = currentTimeInMilliSecond;
                     String sensorRawValues = "  x = "+ String.valueOf(x) +"  y = "+ String.valueOf(y) +"  z = "+ String.valueOf(z);
-                    Log.d("Acc. Event", "last sensor update at " + String.valueOf(sensorEventDate) + sensorRawValues);
+                    //Log.d("Acc. Event", "last sensor update at " + String.valueOf(sensorEventDate) + sensorRawValues);
                 }
 
                 // TODO 11 (YOUR TURN): Compute the magnitude for the acceleration and put it in accMag
+                accMag = Math.sqrt(x*x + y*y + z*z);
+
 
 
                 // TODO 12 (YOUR TURN): Store the magnitude for the acceleration in accSeries
-
+                accSeries.add((int)accMag);
 
                 peakDetection();
 
@@ -90,6 +97,8 @@ public class  StepCounterListener implements SensorEventListener {
                 // TODO (Assignment 02): Use the STEP_DETECTOR  to count the number of steps
                 // TODO (Assignment 02): The STEP_DETECTOR is triggered every time a step is detected
                 // TODO (Assignment 02): The sensorEvent.values of STEP_DETECTOR has only one value for the detected step count
+                float step = sensorEvent.values[0];
+                countSteps(step);
 
         }
     }
@@ -119,15 +128,16 @@ public class  StepCounterListener implements SensorEventListener {
 
             if (forwardSlope < 0 && downwardSlope > 0 && valuesInWindow.get(i) > stepThreshold) {
                 accStepCounter += 1;
-                Log.d("ACC STEPS: ", String.valueOf(accStepCounter));
+                //Log.d("ACC STEPS: ", String.valueOf(accStepCounter));
 
                 //TODO 15: Update the TextView with the number of steps calculated using ACC. sensor
-                stepCountsView.setText(String.valueOf(accStepCounter));
+                //stepCountsView.setText(String.valueOf(accStepCounter));
 
                 //TODO 17: Add the new steps to the database
-                saveStepInDatabase();
+                //saveStepInDatabase();
 
                 //TODO 19 (Your Turn): Set the progress of the CircularProgressIndicator variable
+                //progressBar.setProgress(accStepCounter);
 
 
 
@@ -137,6 +147,13 @@ public class  StepCounterListener implements SensorEventListener {
 
     private void countSteps(float step)
     {
+        if ((int)step == 1) {
+            stepCounter++;
+            saveStepInDatabase();
+            Log.d("STEP COUNTER: ", String.valueOf(stepCounter));
+            stepCountsView.setText(String.valueOf(stepCounter));
+            progressBar.setProgress(stepCounter);
+    }
 
     }
     private void saveStepInDatabase()

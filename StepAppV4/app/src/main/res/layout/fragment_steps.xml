@@ -71,18 +71,18 @@
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/light_md_theme_secondaryContainer"
+            android:backgroundTint="?attr/colorSecondaryContainer"
             android:text="@string/start"
-            android:textColor="@color/light_md_theme_onSecondaryContainer" />
+            android:textColor="?attr/colorOnSecondaryContainer" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/toggleStop_btn"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/light_md_theme_secondaryContainer"
+            android:backgroundTint="?attr/colorSecondaryContainer"
             android:text="@string/stop"
-            android:textColor="@color/light_md_theme_onSecondaryContainer"
+            android:textColor="?attr/colorOnSecondaryContainer"
             app:icon="@drawable/ic_stop" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

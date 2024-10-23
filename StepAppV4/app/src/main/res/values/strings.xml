@@ -2,8 +2,8 @@
     <string name="app_name">StepAppV4</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Assignment 2</string>
+    <string name="nav_header_subtitle">andrea.perugini@usi.ch</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -23,6 +23,7 @@
     <string name="start_text"> Counter Started </string>
     <string name="stop_text"> Counter Stopped </string>
     <string name="acc_sensor_not_available"> Accelerometer sensor is not available </string>
+    <string name="step_sensor_not_available"> Step sensor is not available </string>
 
     <string name="stop">Stop</string>
 
